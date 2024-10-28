@@ -52,11 +52,11 @@ filterColor.addEventListener("change", () => {
 
 function showNotes() {
     document.querySelectorAll(".wrapper .note").forEach(note => note.remove());
-    var filter = filterText.value;
+    var filter = filterText.value.toLowerCase();
     var filterStart = filterDateStart.valueAsDate;
     var filterEnd = filterDateEnd.valueAsDate;
 
-    var filteredNotes = (filter > "" ) ? notes.filter(x => x.title.includes(filter) || x.description.includes(filter)) : notes;
+    var filteredNotes = (filter > "" ) ? notes.filter(x => x.title.toLowerCase().includes(filter) || x.description.toLowerCase().includes(filter)) : notes;
     if (filterStart){
         filteredNotes = filteredNotes.filter(x => new Date(x.fullDate) >= filterStart)
     }
@@ -79,8 +79,8 @@ function showNotes() {
                             <div class="settings">
                                 <i onclick="showMenu(this)" class="uil uil-ellipsis-h"></i>
                                 <ul class="menu">
-                                    <li onclick="updateNote(${index}, '${note.title}', '${note.description}', '${note.color}')"><i class="uil uil-pen"></i>Edit</li>
-                                    <li onclick="deleteNote(${index})"><i class="uil uil-trash"></i>Delete</li>
+                                    <li onclick="updateNote(${note.id}, '${note.title}', '${note.description}', '${note.color}')"><i class="uil uil-pen"></i>Edit</li>
+                                    <li onclick="deleteNote(${note.id})"><i class="uil uil-trash"></i>Delete</li>
                                 </ul>
                             </div>
                         </div>
@@ -107,8 +107,9 @@ function showGrid() {
     document.querySelectorAll(".grid .note").forEach(note => note.remove());
     gridNotes.forEach((note, index) => {
         let liTag =`<li class="note" style="background-color:${note.color}">
+                        <i class="uil uil-times" onclick="removeFromGrid(${index})"></i>
                         <div class="details">
-                            <p>${note.title}<i class="uil uil-times" onclick="removeFromGrid(${index})"></i></p>
+                            <p>${note.title}</p>
                             <span>${note.description}</span>
                         </div>
                         <div class="bottom-content">
@@ -132,9 +133,16 @@ function showMenu(elem) {
 function deleteNote(noteId) {
     let confirmDel = confirm("Are you sure you want to delete this note?");
     if(!confirmDel) return;
-    notes.splice(noteId, 1);
+
+    notes.splice(notes.findIndex(x => x.id == noteId), 1)
+
+    if (gridNotes.findIndex(x => x.id == noteId) >=0 ){
+        gridNotes.splice(gridNotes.findIndex(x => x.id == noteId), 1)
+    }
+    
     localStorage.setItem("notes", JSON.stringify(notes));
     showNotes();
+    showGrid();
 }
 
 function toggle(element, noteId){
@@ -152,7 +160,6 @@ function toggle(element, noteId){
 }
 
 function updateNote(noteId, title, desc, color) {
-    debugger
     isUpdate = true;
     updateId = noteId;
     addBox.click();
@@ -170,30 +177,35 @@ addBtn.addEventListener("click", e => {
     noteDesc = descTag.value;
 
     if(noteTitle || noteDesc){
-        let dateObj = new Date();
-        month = monthes[dateObj.getMonth()],
-        day = dateObj.getDate(),
-        year = dateObj.getFullYear(),
-        hour =  dateObj.getHours(),
-        minutes =  dateObj.getMinutes(),
-
-        noteInfo = {
-            title: noteTitle, 
-            description: noteDesc,
-            color: colorTag.value,
-            date: `${month} ${day}, ${year}, ${hour<10 ? "0" + hour : hour}:${minutes<10 ? "0" + minutes : minutes}`,
-            fullDate: dateObj
-        }
-        if(!isUpdate) {
-            noteInfo.open = false;
-            notes.push(noteInfo);
-        } else {
+        if(isUpdate) {
             isUpdate = false;
-            notes[updateId] = noteInfo;
+            var note = notes.find(x => x.id == updateId);
+            note.title = noteTitle;
+            note.description = noteDesc;
+            note.color = colorTag.value;
+        } else {
+            let dateObj = new Date();
+            month = monthes[dateObj.getMonth()],
+            day = dateObj.getDate(),
+            year = dateObj.getFullYear(),
+            hour =  dateObj.getHours(),
+            minutes =  dateObj.getMinutes(),
+    
+            noteInfo = {
+                id: dateObj.getTime(),
+                title: noteTitle, 
+                description: noteDesc,
+                color: colorTag.value,
+                date: `${month} ${day}, ${year}, ${hour<10 ? "0" + hour : hour}:${minutes<10 ? "0" + minutes : minutes}`,
+                fullDate: dateObj,
+                open: false
+            }
+            notes.push(noteInfo);
         }
 
         localStorage.setItem("notes", JSON.stringify(notes));
         closeIcon.click();
         showNotes();
+        showGrid();
     }
 });

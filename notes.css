@@ -37,7 +37,7 @@ body{
 
 .header div{
     display: table-cell;
-    padding: 20px 20px;
+    padding: 5px 20px;
 }
 
 .header div .add-box{
@@ -72,6 +72,16 @@ body{
     padding: 1em; 
 }
 
+.grid .note{
+    position: relative;
+}
+
+.grid .note i{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
 .add-box .icon, .bottom-content,
 .settings .menu li, .popup, header{
     display: flex;
@@ -115,7 +125,6 @@ label {
     color: black;
     font-weight: bold;
     font-size: 25px;
-    -webkit-text-stroke: 0.5px white; 
 }
 
 .filter-text, .filter-date-start, .filter-date-end{
@@ -142,6 +151,7 @@ label {
 .note .details i{
     position: absolute;
     right: 0;
+    cursor: pointer;
 }
 
 .note .details i.uil-pseudo:before{
@@ -260,6 +270,7 @@ font-weight: 520;
     width: calc(100% - 15px);
     background: #fff;
     border-radius: 5px;
+    padding-bottom: 1px;;
 }
 
 .popup .content header{
