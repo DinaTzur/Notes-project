@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>notes</title>
+    <link rel="stylesheet" href="./notes.css" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+</head>
+<body>
+    <div class="popup-box">
+        <div class="popup">
+            <div class="content">
+                <header>
+                    <p>Add a new Note</p>
+                    <i class="uil uil-times"></i>
+                </header>
+                <form action="#">
+                    <div class="row title">
+                        <label>Title</label>
+                        <input type="text">
+                    </div>
+                    <div class="row description">
+                        <label>Description</label>
+                        <textarea></textarea>
+                    </div>
+                    <div class="row title">
+                        <label>Color</label>
+                        <select id="select">
+                            <option style="background-color:white" value="white">white</option>
+                            <option style="background-color:rgb(199, 230, 247)" value="rgb(199, 230, 247)">blue</option>
+                            <option style="background-color:rgb(211, 204, 248)" value="rgb(211, 204, 248)">purple</option>
+                            <option style="background-color:rgb(251, 251, 190)" value="rgb(251, 251, 190)">yellow</option>
+                        </select>
+                    </div>                    
+
+                    <button >Add Note</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="header">
+        <div>
+            <li class="add-box">
+                <div class="icon"><i class="uil uil-plus"></i></div>
+                <p> add new note</p>
+            </li>
+        </div>
+        <div>
+            <div>
+                <label></label>
+                <input type="text" class="filter-text" placeholder="Search.." />
+            </div>
+            <div>
+                <label>From:</label>
+                <input type="date" class="filter-date-start"/>
+            </div>
+            <div>
+                <label>To:</label>
+                <input type="date" class="filter-date-end"/>
+            </div>
+            <div>
+                <select class="filter-color">
+                    <option style="background-color:white" value="All">All</option>
+                    <option style="background-color:white" value="white">white</option>
+                    <option style="background-color:rgb(199, 230, 247)" value="rgb(199, 230, 247)">blue</option>
+                    <option style="background-color:rgb(211, 204, 248)" value="rgb(211, 204, 248)">purple</option>
+                    <option style="background-color:rgb(251, 251, 190)" value="rgb(251, 251, 190)">yellow</option>
+                </select>                
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="main-content">
+        <div class="wrapper">
+        </div>
+        <div class="grid">
+        </div>
+    </div>
+<script src="./notes.js"></script>  
+</body>
+</html>
