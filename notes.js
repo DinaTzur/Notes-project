@@ -79,7 +79,7 @@ function showNotes() {
                             <div class="settings">
                                 <i onclick="showMenu(this)" class="uil uil-ellipsis-h"></i>
                                 <ul class="menu">
-                                    <li onclick="updateNote(${note.id}, '${note.title}', '${note.description}', '${note.color}')"><i class="uil uil-pen"></i>Edit</li>
+                                    <li onclick="updateNote(${note.id})"><i class="uil uil-pen"></i>Edit</li>
                                     <li onclick="deleteNote(${note.id})"><i class="uil uil-trash"></i>Delete</li>
                                 </ul>
                             </div>
@@ -159,13 +159,14 @@ function toggle(element, noteId){
     localStorage.setItem("notes", JSON.stringify(notes));
 }
 
-function updateNote(noteId, title, desc, color) {
+function updateNote(noteId) {
     isUpdate = true;
     updateId = noteId;
+    var note = notes.find(x => x.id == updateId);
     addBox.click();
-    titleTag.value = title
-    descTag.value = desc
-    colorTag.value = color
+    titleTag.value = note.title
+    descTag.value = note.description
+    colorTag.value = note.color
     addBtn.innerText = "Update Note";
     popupTitle.innerText = "Update a Note";
     console.log(noteId, title, desc);
